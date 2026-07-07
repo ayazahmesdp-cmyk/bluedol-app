@@ -1,249 +1,304 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Bluedol — Owner Panel</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f4f3f0;color:#1a1a1a;min-height:100vh}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f4f3f0;color:#1a1a1a;min-height:100vh;font-size:14px}
 input,select,textarea,button{font-family:inherit;font-size:14px}
 
 /* AUTH */
-.auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}
-.auth-card{background:#fff;border-radius:16px;padding:36px 32px;width:100%;max-width:400px;border:0.5px solid #e0ddd6}
-.auth-logo{font-size:22px;font-weight:600;color:#533AB7;margin-bottom:4px}
-.auth-sub{font-size:13px;color:#888;margin-bottom:28px}
-.auth-card h2{font-size:18px;font-weight:500;margin-bottom:20px;color:#1a1a1a}
-.field{margin-bottom:14px}
-.field label{display:block;font-size:12px;font-weight:500;color:#666;margin-bottom:5px;letter-spacing:.3px}
-.field input,.field select,.field textarea{width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px;outline:none;transition:border .2s;background:#fff;color:#1a1a1a}
+.auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px;background:#f4f3f0}
+.auth-card{background:#fff;border-radius:14px;padding:32px;width:100%;max-width:380px;border:0.5px solid #e0ddd6}
+.auth-logo{font-size:20px;font-weight:600;color:#533AB7;margin-bottom:2px}
+.auth-sub{font-size:12px;color:#aaa;margin-bottom:22px}
+.auth-card h2{font-size:16px;font-weight:500;margin-bottom:16px}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:11px;font-weight:500;color:#777;margin-bottom:4px;letter-spacing:.3px;text-transform:uppercase}
+.field input,.field select,.field textarea{width:100%;padding:8px 11px;border:0.5px solid #ddd;border-radius:7px;font-size:13px;outline:none;background:#fff;color:#1a1a1a;transition:border .15s}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:#533AB7}
-.field textarea{resize:vertical;min-height:72px}
-.btn-primary{background:#533AB7;color:#fff;border:none;padding:10px 22px;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;width:100%}
-.btn-primary:hover{background:#4530a0}
-.btn-secondary{background:#f4f3f0;color:#333;border:1px solid #ddd;padding:9px 18px;border-radius:8px;font-size:14px;cursor:pointer}
-.btn-secondary:hover{background:#e8e6e0}
-.btn-danger{background:#fff;color:#A32D2D;border:1px solid #f0bcbc;padding:7px 14px;border-radius:8px;font-size:13px;cursor:pointer}
-.btn-danger:hover{background:#fcebeb}
-.btn-sm{padding:6px 14px;font-size:12px;border-radius:6px}
-.auth-toggle{text-align:center;margin-top:16px;font-size:13px;color:#888}
-.auth-toggle a{color:#533AB7;cursor:pointer;text-decoration:underline}
-.err-msg{background:#fcebeb;color:#791F1F;font-size:13px;padding:10px 12px;border-radius:8px;margin-bottom:14px;display:none}
-.suc-msg{background:#E1F5EE;color:#085041;font-size:13px;padding:10px 12px;border-radius:8px;margin-bottom:14px;display:none}
+.field textarea{resize:vertical;min-height:64px}
+.btn-p{background:#533AB7;color:#fff;border:none;padding:9px 20px;border-radius:7px;font-size:13px;font-weight:500;cursor:pointer}
+.btn-p:hover{background:#4530a0}
+.btn-p.full{width:100%}
+.btn-s{background:#f4f3f0;color:#333;border:0.5px solid #ddd;padding:7px 16px;border-radius:7px;font-size:13px;cursor:pointer}
+.btn-s:hover{background:#e8e6e0}
+.btn-danger{background:#fff;color:#A32D2D;border:0.5px solid #f0bcbc;padding:5px 12px;border-radius:6px;font-size:12px;cursor:pointer}
+.auth-link{text-align:center;margin-top:14px;font-size:12px;color:#aaa}
+.auth-link a{color:#533AB7;cursor:pointer;text-decoration:underline}
+.err{background:#fcebeb;color:#791F1F;font-size:12px;padding:9px 11px;border-radius:7px;margin-bottom:12px;display:none}
+.suc{background:#E1F5EE;color:#085041;font-size:12px;padding:9px 11px;border-radius:7px;margin-bottom:12px;display:none}
 
-/* APP SHELL */
+/* APP */
 .app{display:none;flex-direction:column;min-height:100vh}
-.topbar{background:#fff;border-bottom:0.5px solid #e0ddd6;padding:0 20px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
-.topbar-left{display:flex;align-items:center;gap:10px}
-.logo{font-size:18px;font-weight:600;color:#533AB7}
-.logo-tag{font-size:11px;color:#aaa;margin-left:4px}
-.avatar-circle{width:32px;height:32px;border-radius:50%;background:#EEEDFE;color:#3C3489;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;cursor:pointer}
-.topbar-right{display:flex;align-items:center;gap:12px}
-.user-name{font-size:13px;color:#555}
-.role-badge{font-size:11px;padding:2px 8px;border-radius:20px;font-weight:500}
-.role-owner{background:#EEEDFE;color:#3C3489}
-.role-staff{background:#E6F1FB;color:#0C447C}
-.logout-btn{font-size:13px;color:#888;cursor:pointer;background:none;border:none;padding:4px 8px}
-.logout-btn:hover{color:#333}
+.topbar{background:#1a1a2e;padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{font-size:16px;font-weight:600;color:#a78bfa}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.av-circle{width:30px;height:30px;border-radius:50%;background:#EEEDFE;color:#3C3489;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500}
+.user-info{font-size:12px;color:#aaa}
+.role-pill{font-size:11px;padding:2px 8px;border-radius:12px;font-weight:500}
+.rp-owner{background:#EEEDFE;color:#3C3489}
+.rp-staff{background:#E6F1FB;color:#0C447C}
+.logout-btn{font-size:12px;color:#888;cursor:pointer;background:none;border:none;padding:3px 8px}
+.logout-btn:hover{color:#fff}
 
-/* NAV TABS */
-.nav{background:#fff;border-bottom:0.5px solid #e0ddd6;padding:0 20px;display:flex;gap:0;overflow-x:auto}
-.nav-tab{padding:12px 18px;font-size:14px;cursor:pointer;border-bottom:2px solid transparent;color:#888;background:none;border-top:none;border-left:none;border-right:none;white-space:nowrap}
-.nav-tab.active{color:#533AB7;border-bottom:2px solid #533AB7;font-weight:500}
-.nav-tab:hover{color:#533AB7}
+/* NAV */
+.nav{background:#fff;border-bottom:0.5px solid #e0ddd6;padding:0 20px;display:flex;overflow-x:auto}
+.nav-tab{padding:11px 16px;font-size:13px;cursor:pointer;border-bottom:2px solid transparent;color:#888;background:none;border-top:none;border-left:none;border-right:none;white-space:nowrap}
+.nav-tab.active{color:#533AB7;border-bottom-color:#533AB7;font-weight:500}
 
 /* MAIN */
-.main{flex:1;padding:20px;max-width:900px;margin:0 auto;width:100%}
+.main{flex:1;padding:16px 20px;max-width:1100px;margin:0 auto;width:100%}
 .section{display:none}.section.active{display:block}
 
-/* CARDS */
-.card{background:#fff;border-radius:12px;border:0.5px solid #e0ddd6;padding:20px;margin-bottom:14px}
-.card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
-.card-title{font-size:15px;font-weight:500;color:#1a1a1a;line-height:1.4}
-.card-meta{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-top:8px}
-.card-desc{font-size:13px;color:#666;margin-top:6px;line-height:1.5}
-.card-actions{display:flex;gap:8px;margin-top:12px}
-
-/* BADGES */
-.badge{display:inline-block;font-size:11px;padding:2px 9px;border-radius:20px;font-weight:500;white-space:nowrap}
-.b-purple{background:#EEEDFE;color:#3C3489}
-.b-teal{background:#E1F5EE;color:#085041}
-.b-amber{background:#FAEEDA;color:#633806}
-.b-blue{background:#E6F1FB;color:#0C447C}
-.b-red{background:#FCEBEB;color:#791F1F}
-.b-green{background:#EAF3DE;color:#27500A}
-.b-gray{background:#F1EFE8;color:#444441}
-
 /* STATS */
-.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:18px}
-.stat-card{background:#fff;border-radius:10px;border:0.5px solid #e0ddd6;padding:14px 16px}
-.stat-label{font-size:11px;color:#888;margin-bottom:4px}
-.stat-val{font-size:24px;font-weight:500;color:#1a1a1a}
-.stat-val.danger{color:#A32D2D}
-.stat-val.success{color:#0F6E56}
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:16px}
+.stat-box{background:#fff;border-radius:10px;border:0.5px solid #e0ddd6;padding:12px 14px}
+.stat-lbl{font-size:11px;color:#aaa;margin-bottom:3px}
+.stat-val{font-size:22px;font-weight:500;color:#1a1a1a}
+.stat-val.d{color:#A32D2D}.stat-val.s{color:#0F6E56}
 
-/* PROGRESS */
-.prog-bar{height:5px;background:#f0ede8;border-radius:4px;margin-top:10px;overflow:hidden}
-.prog-fill{height:100%;border-radius:4px;transition:width .3s}
+/* GRID TABLE */
+.sec-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px}
+.sec-title{font-size:15px;font-weight:500;color:#1a1a1a}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.f-btn{padding:4px 13px;border-radius:20px;font-size:12px;cursor:pointer;background:#f4f3f0;border:0.5px solid #ddd;color:#666}
+.f-btn.on{background:#533AB7;border-color:#533AB7;color:#fff;font-weight:500}
+.grid-wrap{border:0.5px solid #e0ddd6;border-radius:12px;overflow:hidden;background:#fff}
+.grid-wrap table{width:100%;border-collapse:collapse;table-layout:fixed}
+.grid-wrap thead tr{background:#f9f8f5}
+.grid-wrap th{font-size:11px;font-weight:500;color:#aaa;text-transform:uppercase;letter-spacing:.5px;padding:9px 12px;text-align:left;border-bottom:0.5px solid #e0ddd6}
+.grid-wrap td{padding:9px 12px;font-size:13px;color:#1a1a1a;border-bottom:0.5px solid #f0ede8;vertical-align:middle}
+.grid-wrap tr:last-child td{border-bottom:none}
+.grid-wrap tbody tr:hover td{background:#faf9f6}
+.count-info{font-size:12px;color:#aaa;margin-bottom:8px}
 
-/* FORM MODAL */
-.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.4);z-index:200;display:none;align-items:center;justify-content:center;padding:16px}
-.modal-overlay.open{display:flex}
-.modal{background:#fff;border-radius:16px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;padding:28px}
-.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
-.modal-title{font-size:17px;font-weight:500}
-.modal-close{background:none;border:none;font-size:22px;cursor:pointer;color:#888;line-height:1}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+/* STATUS BADGE */
+.badge{display:inline-block;font-size:11px;padding:2px 9px;border-radius:12px;font-weight:500;white-space:nowrap}
+.s-pending{background:#FAEEDA;color:#633806}
+.s-progress{background:#E6F1FB;color:#0C447C}
+.s-done{background:#E1F5EE;color:#085041}
+.s-overdue{background:#FCEBEB;color:#791F1F}
+
+/* PRIORITY DOT */
+.pdot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:4px;vertical-align:middle}
+.pd-high{background:#E24B4A}.pd-med{background:#EF9F27}.pd-low{background:#1D9E75}
+
+/* AVATAR */
+.av{width:22px;height:22px;border-radius:50%;background:#EEEDFE;color:#3C3489;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;margin-right:5px;vertical-align:middle;flex-shrink:0}
+
+/* STATUS SELECT */
+.st-sel{font-size:12px;padding:3px 7px;border-radius:6px;border:0.5px solid #ddd;background:#f9f8f5;color:#1a1a1a;cursor:pointer;outline:none;max-width:110px}
+
+/* PLAN CARDS */
+.plan-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.plan-card{background:#fff;border-radius:12px;border:0.5px solid #e0ddd6;padding:16px}
+.plan-title{font-size:14px;font-weight:500;margin-bottom:6px}
+.plan-goal{font-size:12px;color:#777;margin-bottom:8px;line-height:1.5}
+.plan-meta{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+.prog-bar{height:4px;background:#f0ede8;border-radius:4px;overflow:hidden;margin-bottom:5px}
+.prog-fill{height:100%;border-radius:4px}
+.plan-actions{display:flex;gap:7px;margin-top:8px}
+.badge-cat{background:#f4f3f0;color:#555;font-size:11px;padding:2px 8px;border-radius:12px}
+.badge-pri-h{background:#FCEBEB;color:#791F1F;font-size:11px;padding:2px 8px;border-radius:12px}
+.badge-pri-m{background:#FAEEDA;color:#633806;font-size:11px;padding:2px 8px;border-radius:12px}
+.badge-pri-l{background:#E1F5EE;color:#085041;font-size:11px;padding:2px 8px;border-radius:12px}
+.badge-st-a{background:#EEEDFE;color:#3C3489;font-size:11px;padding:2px 8px;border-radius:12px}
+.badge-st-d{background:#E1F5EE;color:#085041;font-size:11px;padding:2px 8px;border-radius:12px}
+.badge-st-h{background:#FAEEDA;color:#633806;font-size:11px;padding:2px 8px;border-radius:12px}
+.badge-st-c{background:#f4f3f0;color:#555;font-size:11px;padding:2px 8px;border-radius:12px}
+
+/* MODAL */
+.modal-ov{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.4);z-index:200;display:none;align-items:center;justify-content:center;padding:16px}
+.modal-ov.open{display:flex}
+.modal{background:#fff;border-radius:14px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;padding:24px}
+.modal-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.modal-title{font-size:16px;font-weight:500}
+.modal-close{background:none;border:none;font-size:22px;cursor:pointer;color:#aaa;line-height:1}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .form-row.single{grid-template-columns:1fr}
 .form-row.three{grid-template-columns:1fr 1fr 1fr}
-.modal-footer{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}
-@media(max-width:540px){.form-row,.form-row.three{grid-template-columns:1fr}}
-
-/* META CHIP */
-.meta-chip{display:flex;align-items:center;gap:4px;font-size:12px;color:#777}
-.dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:3px}
-.avatar-sm{width:24px;height:24px;border-radius:50%;background:#EEEDFE;color:#3C3489;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:500}
-
-/* OVERDUE ACCENT */
-.card.overdue{border-left:3px solid #E24B4A;border-radius:0 12px 12px 0}
-
-/* SECTION HEADER */
-.sec-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
-.sec-title{font-size:16px;font-weight:500}
-.empty-state{text-align:center;padding:48px 16px;color:#aaa;font-size:14px}
-
-/* FILTER BAR */
-.filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-.filter-btn{padding:5px 14px;border-radius:20px;font-size:12px;cursor:pointer;background:#f4f3f0;border:1px solid #ddd;color:#555}
-.filter-btn.active{background:#533AB7;border-color:#533AB7;color:#fff}
+.modal-foot{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
+@media(max-width:500px){.form-row,.form-row.three{grid-template-columns:1fr}}
 
 /* STAFF TABLE */
-.staff-table{width:100%;border-collapse:collapse}
-.staff-table th{font-size:12px;font-weight:500;color:#888;text-align:left;padding:8px 12px;border-bottom:1px solid #f0ede8;text-transform:uppercase;letter-spacing:.5px}
-.staff-table td{font-size:13px;color:#333;padding:10px 12px;border-bottom:0.5px solid #f0ede8}
-.staff-table tr:last-child td{border-bottom:none}
+.staff-tbl{width:100%;border-collapse:collapse}
+.staff-tbl th{font-size:11px;color:#aaa;text-transform:uppercase;letter-spacing:.5px;padding:8px 12px;border-bottom:0.5px solid #f0ede8;text-align:left}
+.staff-tbl td{font-size:13px;padding:10px 12px;border-bottom:0.5px solid #f0ede8;color:#1a1a1a}
+.staff-tbl tr:last-child td{border-bottom:none}
 
 /* TOAST */
-.toast{position:fixed;bottom:24px;right:24px;background:#1a1a1a;color:#fff;font-size:13px;padding:12px 18px;border-radius:10px;z-index:999;display:none;animation:fadeUp .3s ease}
-@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.toast{position:fixed;bottom:20px;right:20px;background:#1a1a1a;color:#fff;font-size:13px;padding:10px 16px;border-radius:9px;z-index:999;display:none}
 
-/* STAFF APP — task update */
-.task-update-btn{font-size:12px;padding:5px 12px;border-radius:6px;cursor:pointer;border:1px solid #ddd;background:#fff;color:#333;margin-right:6px}
-.task-update-btn:hover{background:#f4f3f0}
+/* ADD TASK INLINE FORM */
+.add-form-bar{background:#fff;border:0.5px solid #c5bffa;border-radius:10px;padding:14px;margin-bottom:12px;display:none}
+.add-form-bar.open{display:block}
+.add-row-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px}
+.add-row-wide{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.add-row-grid .field label,.add-row-wide .field label{display:block;font-size:10px;color:#aaa;margin-bottom:3px;font-weight:500;text-transform:uppercase;letter-spacing:.3px}
+.add-row-grid .field input,.add-row-grid .field select,.add-row-wide .field input,.add-row-wide .field select{width:100%;padding:6px 9px;border:0.5px solid #ddd;border-radius:6px;font-size:13px;background:#f9f8f5;color:#1a1a1a;outline:none}
+.add-row-grid .field input:focus,.add-row-grid .field select:focus,.add-row-wide .field input:focus{border-color:#533AB7}
+.form-foot{display:flex;justify-content:flex-end;gap:8px}
+
+/* OVERDUE ROW */
+tr.ov-row td:first-child{border-left:2px solid #E24B4A}
+
+/* NOTE */
+.note-txt{font-size:12px;color:#888;font-style:italic}
+.date-ov{color:#A32D2D;font-weight:500}
+
+/* STAFF NOTE BOX */
+.staff-note-box{background:#f9f8f5;border-radius:6px;padding:6px 9px;font-size:12px;color:#555;font-style:italic;margin-top:4px}
 </style>
 </head>
 <body>
 
-<!-- AUTH SCREENS -->
+<!-- AUTH -->
 <div id="authWrap" class="auth-wrap">
-  <!-- LOGIN -->
   <div id="loginCard" class="auth-card">
     <div class="auth-logo">👟 Bluedol</div>
     <div class="auth-sub">Owner & Sales Panel</div>
     <h2>Sign in</h2>
-    <div id="loginErr" class="err-msg"></div>
-    <div class="field"><label>Email</label><input type="email" id="loginEmail" placeholder="you@example.com" /></div>
-    <div class="field"><label>Password</label><input type="password" id="loginPass" placeholder="••••••••" /></div>
-    <button class="btn-primary" onclick="login()">Sign in</button>
-    <div class="auth-toggle">First time? <a onclick="showSetup()">Create owner account</a></div>
+    <div id="loginErr" class="err"></div>
+    <div class="field"><label>Email</label><input type="email" id="loginEmail" placeholder="you@bluedol.com"/></div>
+    <div class="field"><label>Password</label><input type="password" id="loginPass" placeholder="••••••••"/></div>
+    <button class="btn-p full" onclick="login()">Sign in</button>
+    <div class="auth-link">First time? <a onclick="showSetup()">Create owner account</a></div>
   </div>
-
-  <!-- SETUP OWNER -->
   <div id="setupCard" class="auth-card" style="display:none">
     <div class="auth-logo">👟 Bluedol</div>
     <div class="auth-sub">First-time setup</div>
     <h2>Create owner account</h2>
-    <div id="setupErr" class="err-msg"></div>
-    <div id="setupSuc" class="suc-msg"></div>
-    <div class="field"><label>Your name</label><input type="text" id="setupName" placeholder="Ahmed" /></div>
-    <div class="field"><label>Email</label><input type="email" id="setupEmail" placeholder="owner@bluedol.com" /></div>
-    <div class="field"><label>Password</label><input type="password" id="setupPass" placeholder="Min 6 characters" /></div>
-    <button class="btn-primary" onclick="setupOwner()">Create account</button>
-    <div class="auth-toggle"><a onclick="showLogin()">Back to sign in</a></div>
+    <div id="setupErr" class="err"></div>
+    <div id="setupSuc" class="suc"></div>
+    <div class="field"><label>Your name</label><input type="text" id="setupName" placeholder="Ahmed"/></div>
+    <div class="field"><label>Email</label><input type="email" id="setupEmail" placeholder="owner@bluedol.com"/></div>
+    <div class="field"><label>Password</label><input type="password" id="setupPass" placeholder="Min 6 characters"/></div>
+    <button class="btn-p full" onclick="setupOwner()">Create account</button>
+    <div class="auth-link"><a onclick="showLogin()">Back to sign in</a></div>
   </div>
 </div>
 
-<!-- MAIN APP -->
+<!-- APP -->
 <div id="app" class="app">
   <div class="topbar">
-    <div class="topbar-left">
-      <span class="logo">👟 Bluedol</span>
-    </div>
+    <span class="logo">👟 Bluedol</span>
     <div class="topbar-right">
-      <div class="avatar-circle" id="avatarCircle">AH</div>
-      <span class="user-name" id="topUserName">Ahmed</span>
-      <span class="role-badge role-owner" id="topRoleBadge">Owner</span>
+      <div class="av-circle" id="avCircle">AH</div>
+      <span class="user-info" id="topName">Ahmed</span>
+      <span class="role-pill rp-owner" id="topRole">Owner</span>
       <button class="logout-btn" onclick="logout()">Sign out</button>
     </div>
   </div>
-
-  <div class="nav" id="navBar">
-    <!-- Tabs injected by JS based on role -->
-  </div>
-
+  <div class="nav" id="navBar"></div>
   <div class="main">
 
     <!-- DASHBOARD -->
     <div id="sec-dashboard" class="section active">
-      <div class="stat-grid" id="statsGrid"></div>
-      <div id="dashRecentTasks"></div>
-    </div>
-
-    <!-- PLANS (owner) -->
-    <div id="sec-plans" class="section">
-      <div class="sec-head">
-        <span class="sec-title">My Plans</span>
-        <button class="btn-primary btn-sm" onclick="openPlanModal()">+ New plan</button>
-      </div>
-      <div class="filter-bar" id="planFilters">
-        <button class="filter-btn active" onclick="filterPlans('all',this)">All</button>
-        <button class="filter-btn" onclick="filterPlans('Active',this)">Active</button>
-        <button class="filter-btn" onclick="filterPlans('Draft',this)">Draft</button>
-        <button class="filter-btn" onclick="filterPlans('Completed',this)">Completed</button>
-      </div>
-      <div id="plansList"></div>
+      <div class="stat-row" id="statsGrid"></div>
+      <div id="dashContent"></div>
     </div>
 
     <!-- TASKS (owner) -->
     <div id="sec-tasks" class="section">
       <div class="sec-head">
-        <span class="sec-title">Assigned Tasks</span>
-        <button class="btn-primary btn-sm" onclick="openTaskModal()">+ Assign task</button>
+        <span class="sec-title">Task board</span>
+        <button class="btn-p" onclick="toggleAddForm()">+ Add task</button>
       </div>
-      <div class="filter-bar" id="taskFilters">
-        <button class="filter-btn active" onclick="filterTasks('all',this)">All</button>
-        <button class="filter-btn" onclick="filterTasks('Pending',this)">Pending</button>
-        <button class="filter-btn" onclick="filterTasks('In progress',this)">In progress</button>
-        <button class="filter-btn" onclick="filterTasks('Done',this)">Done</button>
-        <button class="filter-btn" onclick="filterTasks('Overdue',this)">Overdue</button>
+      <div class="add-form-bar" id="addTaskForm">
+        <div class="add-row-grid">
+          <div class="field"><label>Assign to</label><select id="fStaff"></select></div>
+          <div class="field"><label>Due date</label><input type="date" id="fDate"/></div>
+          <div class="field"><label>Priority</label>
+            <select id="fPriority"><option>High</option><option selected>Medium</option><option>Low</option></select>
+          </div>
+        </div>
+        <div class="add-row-wide">
+          <div class="field"><label>Work / task</label><input type="text" id="fWork" placeholder="e.g. Visit dealers — Bangalore North"/></div>
+          <div class="field"><label>Follow-up note</label><input type="text" id="fNote" placeholder="e.g. Collect min 2 orders"/></div>
+        </div>
+        <div class="form-foot">
+          <button class="btn-s" onclick="toggleAddForm()">Cancel</button>
+          <button class="btn-p" onclick="saveNewTask()">Add task</button>
+        </div>
       </div>
-      <div id="tasksList"></div>
+      <div class="filters" id="taskFilters">
+        <button class="f-btn on" onclick="filterTasks('all',this)">All</button>
+        <button class="f-btn" onclick="filterTasks('Pending',this)">Pending</button>
+        <button class="f-btn" onclick="filterTasks('In progress',this)">In progress</button>
+        <button class="f-btn" onclick="filterTasks('Done',this)">Done</button>
+        <button class="f-btn" onclick="filterTasks('Overdue',this)">Overdue</button>
+      </div>
+      <div class="count-info" id="taskCount"></div>
+      <div class="grid-wrap">
+        <table>
+          <thead><tr>
+            <th style="width:14%">Staff</th>
+            <th style="width:9%">Due date</th>
+            <th style="width:8%">Priority</th>
+            <th style="width:26%">Task / work</th>
+            <th style="width:22%">Follow-up note</th>
+            <th style="width:13%">Status</th>
+            <th style="width:8%">Action</th>
+          </tr></thead>
+          <tbody id="tasksBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PLANS (owner) -->
+    <div id="sec-plans" class="section">
+      <div class="sec-head">
+        <span class="sec-title">My plans</span>
+        <button class="btn-p" onclick="openPlanModal()">+ New plan</button>
+      </div>
+      <div class="filters">
+        <button class="f-btn on" onclick="filterPlans('all',this)">All</button>
+        <button class="f-btn" onclick="filterPlans('Active',this)">Active</button>
+        <button class="f-btn" onclick="filterPlans('Draft',this)">Draft</button>
+        <button class="f-btn" onclick="filterPlans('Completed',this)">Completed</button>
+      </div>
+      <div class="plan-grid" id="planGrid"></div>
     </div>
 
     <!-- MY TASKS (staff) -->
     <div id="sec-mytasks" class="section">
-      <div class="sec-head"><span class="sec-title">My Tasks</span></div>
-      <div class="filter-bar" id="myTaskFilters">
-        <button class="filter-btn active" onclick="filterMyTasks('all',this)">All</button>
-        <button class="filter-btn" onclick="filterMyTasks('Pending',this)">Pending</button>
-        <button class="filter-btn" onclick="filterMyTasks('In progress',this)">In progress</button>
-        <button class="filter-btn" onclick="filterMyTasks('Done',this)">Done</button>
-        <button class="filter-btn" onclick="filterMyTasks('Overdue',this)">Overdue</button>
+      <div class="sec-head"><span class="sec-title">My tasks</span></div>
+      <div class="filters" id="myFilters">
+        <button class="f-btn on" onclick="filterMyTasks('all',this)">All</button>
+        <button class="f-btn" onclick="filterMyTasks('Pending',this)">Pending</button>
+        <button class="f-btn" onclick="filterMyTasks('In progress',this)">In progress</button>
+        <button class="f-btn" onclick="filterMyTasks('Done',this)">Done</button>
+        <button class="f-btn" onclick="filterMyTasks('Overdue',this)">Overdue</button>
       </div>
-      <div id="myTasksList"></div>
+      <div class="count-info" id="myTaskCount"></div>
+      <div class="grid-wrap">
+        <table>
+          <thead><tr>
+            <th style="width:10%">Due date</th>
+            <th style="width:9%">Priority</th>
+            <th style="width:30%">Task / work</th>
+            <th style="width:22%">Follow-up note</th>
+            <th style="width:14%">Status</th>
+            <th style="width:15%">My note</th>
+          </tr></thead>
+          <tbody id="myTasksBody"></tbody>
+        </table>
+      </div>
     </div>
 
-    <!-- STAFF MANAGEMENT (owner) -->
+    <!-- STAFF (owner) -->
     <div id="sec-staff" class="section">
       <div class="sec-head">
-        <span class="sec-title">Sales Staff</span>
-        <button class="btn-primary btn-sm" onclick="openStaffModal()">+ Add staff</button>
+        <span class="sec-title">Sales staff</span>
+        <button class="btn-p" onclick="openStaffModal()">+ Add staff</button>
       </div>
-      <div class="card">
-        <table class="staff-table">
+      <div class="grid-wrap">
+        <table class="staff-tbl">
           <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Action</th></tr></thead>
-          <tbody id="staffTableBody"></tbody>
+          <tbody id="staffBody"></tbody>
         </table>
       </div>
     </div>
@@ -252,596 +307,516 @@ input,select,textarea,button{font-family:inherit;font-size:14px}
 </div>
 
 <!-- PLAN MODAL -->
-<div class="modal-overlay" id="planModal">
+<div class="modal-ov" id="planModal">
   <div class="modal">
-    <div class="modal-header">
-      <span class="modal-title" id="planModalTitle">New Plan</span>
+    <div class="modal-hd">
+      <span class="modal-title" id="planModalTitle">New plan</span>
       <button class="modal-close" onclick="closePlanModal()">×</button>
     </div>
-    <div id="planFormErr" class="err-msg"></div>
+    <div id="planErr" class="err"></div>
     <div class="form-row">
-      <div class="field"><label>Plan title *</label><input type="text" id="pTitle" placeholder="e.g. Q3 wholesale expansion" /></div>
+      <div class="field"><label>Plan title *</label><input type="text" id="pTitle" placeholder="e.g. Q3 wholesale expansion"/></div>
       <div class="field"><label>Category</label>
-        <select id="pCategory">
-          <option>Sales strategy</option><option>Marketing</option><option>Production</option><option>Operations</option><option>Finance</option>
-        </select>
+        <select id="pCat"><option>Sales strategy</option><option>Marketing</option><option>Production</option><option>Operations</option><option>Finance</option></select>
       </div>
     </div>
     <div class="form-row three">
-      <div class="field"><label>Start date</label><input type="date" id="pStart" /></div>
-      <div class="field"><label>Target date</label><input type="date" id="pTarget" /></div>
-      <div class="field"><label>Priority</label>
-        <select id="pPriority"><option>High</option><option selected>Medium</option><option>Low</option></select>
-      </div>
+      <div class="field"><label>Start date</label><input type="date" id="pStart"/></div>
+      <div class="field"><label>Target date</label><input type="date" id="pTarget"/></div>
+      <div class="field"><label>Priority</label><select id="pPri"><option>High</option><option selected>Medium</option><option>Low</option></select></div>
     </div>
     <div class="form-row single">
       <div class="field"><label>Goal / objective</label><textarea id="pGoal" placeholder="What do you want to achieve?"></textarea></div>
     </div>
     <div class="form-row three">
-      <div class="field"><label>Budget (₹)</label><input type="number" id="pBudget" placeholder="0" /></div>
-      <div class="field"><label>Team size</label><input type="number" id="pTeamSize" value="1" /></div>
-      <div class="field"><label>Status</label>
-        <select id="pStatus"><option>Draft</option><option>Active</option><option>On hold</option><option>Completed</option></select>
-      </div>
-    </div>
-    <div class="form-row single">
-      <div class="field"><label>Notes</label><textarea id="pNotes" placeholder="Any extra notes or action items" style="min-height:54px"></textarea></div>
+      <div class="field"><label>Budget (₹)</label><input type="number" id="pBudget" placeholder="0"/></div>
+      <div class="field"><label>Team size</label><input type="number" id="pTeam" value="1"/></div>
+      <div class="field"><label>Status</label><select id="pStatus"><option>Draft</option><option>Active</option><option>On hold</option><option>Completed</option></select></div>
     </div>
     <div class="form-row">
-      <div class="field"><label>Progress (%)</label><input type="number" id="pProgress" min="0" max="100" value="0" /></div>
+      <div class="field"><label>Notes</label><textarea id="pNotes" placeholder="Extra notes" style="min-height:48px"></textarea></div>
+      <div class="field"><label>Progress (%)</label><input type="number" id="pProg" min="0" max="100" value="0"/></div>
     </div>
-    <input type="hidden" id="pEditId" />
-    <div class="modal-footer">
-      <button class="btn-secondary" onclick="closePlanModal()">Cancel</button>
-      <button class="btn-primary" style="width:auto" onclick="savePlan()">Save plan</button>
-    </div>
-  </div>
-</div>
-
-<!-- TASK MODAL -->
-<div class="modal-overlay" id="taskModal">
-  <div class="modal">
-    <div class="modal-header">
-      <span class="modal-title" id="taskModalTitle">Assign Task</span>
-      <button class="modal-close" onclick="closeTaskModal()">×</button>
-    </div>
-    <div id="taskFormErr" class="err-msg"></div>
-    <div class="form-row">
-      <div class="field"><label>Task title *</label><input type="text" id="tTitle" placeholder="e.g. Visit dealers — Bangalore" /></div>
-      <div class="field"><label>Assign to *</label><select id="tAssignTo"></select></div>
-    </div>
-    <div class="form-row three">
-      <div class="field"><label>Due date</label><input type="date" id="tDue" /></div>
-      <div class="field"><label>Priority</label><select id="tPriority"><option>High</option><option selected>Medium</option><option>Low</option></select></div>
-      <div class="field"><label>Mode</label>
-        <select id="tMode"><option>Field visit</option><option>Phone call</option><option>WhatsApp follow-up</option><option>Office task</option><option>Warehouse</option></select>
-      </div>
-    </div>
-    <div class="form-row single">
-      <div class="field"><label>Description</label><textarea id="tDesc" placeholder="What should be done?"></textarea></div>
-    </div>
-    <div class="form-row">
-      <div class="field"><label>Expected outcome</label><input type="text" id="tOutcome" placeholder="e.g. 2 confirmed orders" /></div>
-      <div class="field"><label>Related plan</label><select id="tPlan"><option value="">None</option></select></div>
-    </div>
-    <input type="hidden" id="tEditId" />
-    <div class="modal-footer">
-      <button class="btn-secondary" onclick="closeTaskModal()">Cancel</button>
-      <button class="btn-primary" style="width:auto" onclick="saveTask()">Assign task</button>
+    <input type="hidden" id="pEditId"/>
+    <div class="modal-foot">
+      <button class="btn-s" onclick="closePlanModal()">Cancel</button>
+      <button class="btn-p" onclick="savePlan()">Save plan</button>
     </div>
   </div>
 </div>
 
 <!-- STAFF MODAL -->
-<div class="modal-overlay" id="staffModal">
-  <div class="modal" style="max-width:420px">
-    <div class="modal-header">
-      <span class="modal-title">Add Staff Member</span>
-      <button class="modal-close" onclick="closeStaffModal()">×</button>
-    </div>
-    <div id="staffFormErr" class="err-msg"></div>
-    <div id="staffFormSuc" class="suc-msg"></div>
-    <div class="field"><label>Full name *</label><input type="text" id="sfName" placeholder="e.g. Riyaz" /></div>
-    <div class="field"><label>Email *</label><input type="email" id="sfEmail" placeholder="riyaz@bluedol.com" /></div>
-    <div class="field"><label>Password *</label><input type="password" id="sfPass" placeholder="Min 6 characters" /></div>
-    <div class="field"><label>Phone</label><input type="text" id="sfPhone" placeholder="9876543210" /></div>
-    <div class="modal-footer">
-      <button class="btn-secondary" onclick="closeStaffModal()">Cancel</button>
-      <button class="btn-primary" style="width:auto" onclick="addStaff()">Add staff</button>
+<div class="modal-ov" id="staffModal">
+  <div class="modal" style="max-width:400px">
+    <div class="modal-hd"><span class="modal-title">Add staff member</span><button class="modal-close" onclick="closeStaffModal()">×</button></div>
+    <div id="staffErr" class="err"></div>
+    <div id="staffSuc" class="suc"></div>
+    <div class="field"><label>Full name *</label><input type="text" id="sfName" placeholder="e.g. Riyaz"/></div>
+    <div class="field"><label>Email *</label><input type="email" id="sfEmail" placeholder="riyaz@bluedol.com"/></div>
+    <div class="field"><label>Password *</label><input type="password" id="sfPass" placeholder="Min 6 characters"/></div>
+    <div class="field"><label>Phone</label><input type="text" id="sfPhone" placeholder="9876543210"/></div>
+    <div class="modal-foot">
+      <button class="btn-s" onclick="closeStaffModal()">Cancel</button>
+      <button class="btn-p" onclick="addStaff()">Add staff</button>
     </div>
   </div>
 </div>
 
-<!-- TASK STATUS MODAL (staff) -->
-<div class="modal-overlay" id="statusModal">
-  <div class="modal" style="max-width:420px">
-    <div class="modal-header">
-      <span class="modal-title">Update Task Status</span>
-      <button class="modal-close" onclick="closeStatusModal()">×</button>
-    </div>
+<!-- STATUS MODAL (staff) -->
+<div class="modal-ov" id="statusModal">
+  <div class="modal" style="max-width:380px">
+    <div class="modal-hd"><span class="modal-title">Update task</span><button class="modal-close" onclick="closeStatusModal()">×</button></div>
     <div class="field"><label>Status</label>
-      <select id="stStatus">
-        <option>Pending</option><option>In progress</option><option>Done</option>
-      </select>
+      <select id="stStatus"><option>Pending</option><option>In progress</option><option>Done</option></select>
     </div>
-    <div class="field"><label>Your note (optional)</label><textarea id="stNote" placeholder="e.g. Visited 4 of 5 dealers, last one closed"></textarea></div>
-    <input type="hidden" id="stTaskId" />
-    <div class="modal-footer">
-      <button class="btn-secondary" onclick="closeStatusModal()">Cancel</button>
-      <button class="btn-primary" style="width:auto" onclick="updateStatus()">Update</button>
+    <div class="field"><label>Your note</label><textarea id="stNote" placeholder="e.g. Visited 4 of 5 dealers…"></textarea></div>
+    <input type="hidden" id="stId"/>
+    <div class="modal-foot">
+      <button class="btn-s" onclick="closeStatusModal()">Cancel</button>
+      <button class="btn-p" onclick="updateStatus()">Update</button>
     </div>
   </div>
 </div>
 
-<!-- TOAST -->
 <div id="toast" class="toast"></div>
 
 <script>
-const API = '';
-let token = localStorage.getItem('bd_token') || '';
-let currentUser = JSON.parse(localStorage.getItem('bd_user') || 'null');
-let allPlans = [], allTasks = [], allStaff = [];
-let planFilter = 'all', taskFilter = 'all', myTaskFilter = 'all';
+const API='';
+let token=localStorage.getItem('bd_token')||'';
+let currentUser=JSON.parse(localStorage.getItem('bd_user')||'null');
+let allTasks=[],allPlans=[],allStaff=[];
+let taskFilter='all',planFilter='all',myTaskFilter='all';
 
-// ── HELPERS ──────────────────────────────────────────────
-function api(path, method='GET', body=null) {
-  return fetch(API + '/api' + path, {
+function api(path,method='GET',body=null){
+  return fetch(API+'/api'+path,{
     method,
-    headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: 'Bearer ' + token } : {}) },
-    body: body ? JSON.stringify(body) : null
-  }).then(r => r.json());
+    headers:{'Content-Type':'application/json',...(token?{Authorization:'Bearer '+token}:{})},
+    body:body?JSON.stringify(body):null
+  }).then(r=>r.json());
 }
-function showErr(id, msg) { const el=document.getElementById(id); el.textContent=msg; el.style.display='block'; }
-function hideErr(id) { document.getElementById(id).style.display='none'; }
-function showSuc(id, msg) { const el=document.getElementById(id); el.textContent=msg; el.style.display='block'; }
-function toast(msg) {
-  const t=document.getElementById('toast'); t.textContent=msg; t.style.display='block';
-  setTimeout(()=>{ t.style.display='none'; }, 2800);
-}
-function initials(name='') { return name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2); }
-function fmtDate(d) { if(!d)return '—'; return new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short'}); }
-function priorityBadge(p) {
-  const map={High:'b-red',Medium:'b-amber',Low:'b-green'};
-  return `<span class="badge ${map[p]||'b-gray'}">${p}</span>`;
-}
-function statusBadge(s) {
-  const map={Active:'b-purple',Draft:'b-amber',Completed:'b-teal','On hold':'b-gray',Pending:'b-gray','In progress':'b-amber',Done:'b-teal',Overdue:'b-red'};
-  return `<span class="badge ${map[s]||'b-gray'}">${s}</span>`;
-}
-function progColor(p) { return p>=80?'#1D9E75':p>=40?'#533AB7':'#EF9F27'; }
+function showErr(id,msg){const e=document.getElementById(id);e.textContent=msg;e.style.display='block'}
+function hideEl(id){document.getElementById(id).style.display='none'}
+function showSuc(id,msg){const e=document.getElementById(id);e.textContent=msg;e.style.display='block'}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',2500)}
+function initials(n=''){return n.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2)}
+function fmtDate(d){if(!d)return'—';return new Date(d+'T00:00:00').toLocaleDateString('en-IN',{day:'numeric',month:'short'})}
+function isOv(d,s){return d&&new Date(d+'T00:00:00')<new Date()&&s!=='Done'}
+function effStatus(t){return(isOv(t.dueDate||t.date,t.status)&&t.status!=='Done')?'Overdue':t.status}
 
-// ── AUTH ─────────────────────────────────────────────────
-function showSetup() { document.getElementById('loginCard').style.display='none'; document.getElementById('setupCard').style.display='block'; }
-function showLogin() { document.getElementById('setupCard').style.display='none'; document.getElementById('loginCard').style.display='block'; }
+function stBadge(s){
+  const m={Pending:'s-pending','In progress':'s-progress',Done:'s-done',Overdue:'s-overdue'};
+  return`<span class="badge ${m[s]||'s-pending'}">${s}</span>`;
+}
+function priDot(p){
+  const m={High:'pd-high',Medium:'pd-med',Low:'pd-low'};
+  return`<span class="pdot ${m[p]||'pd-med'}"></span>${p}`;
+}
+function progColor(p){return p>=80?'#1D9E75':p>=40?'#533AB7':'#EF9F27'}
 
-async function login() {
-  hideErr('loginErr');
+// AUTH
+function showSetup(){document.getElementById('loginCard').style.display='none';document.getElementById('setupCard').style.display='block'}
+function showLogin(){document.getElementById('setupCard').style.display='none';document.getElementById('loginCard').style.display='block'}
+
+async function login(){
+  hideEl('loginErr');
   const email=document.getElementById('loginEmail').value.trim();
   const password=document.getElementById('loginPass').value;
-  if(!email||!password) return showErr('loginErr','Enter email and password');
-  const res = await api('/auth/login','POST',{email,password});
-  if(res.message) return showErr('loginErr',res.message);
-  token=res.token; localStorage.setItem('bd_token',token);
+  if(!email||!password)return showErr('loginErr','Enter email and password');
+  const res=await api('/auth/login','POST',{email,password});
+  if(res.message)return showErr('loginErr',res.message);
+  token=res.token;localStorage.setItem('bd_token',token);
   currentUser={id:res.id,name:res.name,role:res.role};
   localStorage.setItem('bd_user',JSON.stringify(currentUser));
   startApp();
 }
 
-async function setupOwner() {
-  hideErr('setupErr'); hideErr('setupSuc');
+async function setupOwner(){
+  hideEl('setupErr');hideEl('setupSuc');
   const name=document.getElementById('setupName').value.trim();
   const email=document.getElementById('setupEmail').value.trim();
   const password=document.getElementById('setupPass').value;
-  if(!name||!email||!password) return showErr('setupErr','All fields required');
-  if(password.length<6) return showErr('setupErr','Password min 6 characters');
-  const res = await api('/auth/setup','POST',{name,email,password});
-  if(res.message && !res.token) return showErr('setupErr',res.message);
-  showSuc('setupSuc','Account created! Signing you in…');
-  token=res.token; localStorage.setItem('bd_token',token);
+  if(!name||!email||!password)return showErr('setupErr','All fields required');
+  if(password.length<6)return showErr('setupErr','Password min 6 characters');
+  const res=await api('/auth/setup','POST',{name,email,password});
+  if(res.message&&!res.token)return showErr('setupErr',res.message);
+  showSuc('setupSuc','Account created! Signing in…');
+  token=res.token;localStorage.setItem('bd_token',token);
   currentUser={id:res.id,name:res.name,role:res.role};
   localStorage.setItem('bd_user',JSON.stringify(currentUser));
-  setTimeout(startApp, 800);
+  setTimeout(startApp,700);
 }
 
-function logout() {
-  token=''; currentUser=null;
-  localStorage.removeItem('bd_token'); localStorage.removeItem('bd_user');
+function logout(){
+  token='';currentUser=null;
+  localStorage.removeItem('bd_token');localStorage.removeItem('bd_user');
   document.getElementById('app').style.display='none';
   document.getElementById('authWrap').style.display='flex';
   document.getElementById('loginCard').style.display='block';
   document.getElementById('setupCard').style.display='none';
 }
 
-// ── APP START ─────────────────────────────────────────────
-function startApp() {
+// APP START
+function startApp(){
   document.getElementById('authWrap').style.display='none';
-  const app=document.getElementById('app'); app.style.display='flex';
-  document.getElementById('topUserName').textContent=currentUser.name;
-  document.getElementById('avatarCircle').textContent=initials(currentUser.name);
-  const rb=document.getElementById('topRoleBadge');
+  const app=document.getElementById('app');app.style.display='flex';
+  document.getElementById('topName').textContent=currentUser.name;
+  document.getElementById('avCircle').textContent=initials(currentUser.name);
+  const rb=document.getElementById('topRole');
   rb.textContent=currentUser.role==='owner'?'Owner':'Sales Staff';
-  rb.className='role-badge '+(currentUser.role==='owner'?'role-owner':'role-staff');
-  buildNav();
-  loadData();
+  rb.className='role-pill '+(currentUser.role==='owner'?'rp-owner':'rp-staff');
+  buildNav();loadData();
 }
 
-function buildNav() {
+function buildNav(){
   const nav=document.getElementById('navBar');
-  const ownerTabs=[
-    {id:'dashboard',label:'Dashboard'},
-    {id:'plans',label:'My Plans'},
-    {id:'tasks',label:'Assign Tasks'},
-    {id:'staff',label:'Staff'}
-  ];
-  const staffTabs=[
-    {id:'dashboard',label:'Dashboard'},
-    {id:'mytasks',label:'My Tasks'}
-  ];
-  const tabs=currentUser.role==='owner'?ownerTabs:staffTabs;
-  nav.innerHTML=tabs.map(t=>`<button class="nav-tab${t.id==='dashboard'?' active':''}" onclick="switchTab('${t.id}',this)">${t.label}</button>`).join('');
+  const tabs=currentUser.role==='owner'
+    ?[{id:'dashboard',l:'Dashboard'},{id:'tasks',l:'Task board'},{id:'plans',l:'My plans'},{id:'staff',l:'Staff'}]
+    :[{id:'dashboard',l:'Dashboard'},{id:'mytasks',l:'My tasks'}];
+  nav.innerHTML=tabs.map((t,i)=>`<button class="nav-tab${i===0?' active':''}" onclick="switchTab('${t.id}',this)">${t.l}</button>`).join('');
 }
 
-function switchTab(id, el) {
+function switchTab(id,el){
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   el.classList.add('active');
   document.getElementById('sec-'+id).classList.add('active');
 }
 
-async function loadData() {
-  if(currentUser.role==='owner') {
+async function loadData(){
+  if(currentUser.role==='owner'){
     const [plans,tasks,staff]=await Promise.all([api('/plans'),api('/tasks'),api('/staff')]);
     allPlans=Array.isArray(plans)?plans:[];
     allTasks=Array.isArray(tasks)?tasks:[];
     allStaff=Array.isArray(staff)?staff:[];
-    renderDashboard(); renderPlans(); renderTasks(); renderStaff();
-  } else {
+    renderDash();renderTasks();renderPlans();renderStaff();
+    populateStaffDropdown();
+  }else{
     const tasks=await api('/tasks');
     allTasks=Array.isArray(tasks)?tasks:[];
-    renderStaffDashboard(); renderMyTasks();
+    renderStaffDash();renderMyTasks();
   }
 }
 
-// ── DASHBOARD (owner) ──────────────────────────────────────
-function renderDashboard() {
+// DASHBOARD owner
+function renderDash(){
   const active=allPlans.filter(p=>p.status==='Active').length;
   const total=allTasks.length;
-  const overdue=allTasks.filter(t=>t.status==='Overdue').length;
+  const ov=allTasks.filter(t=>effStatus(t)==='Overdue').length;
   const done=allTasks.filter(t=>t.status==='Done').length;
   document.getElementById('statsGrid').innerHTML=`
-    <div class="stat-card"><div class="stat-label">Active plans</div><div class="stat-val">${active}</div></div>
-    <div class="stat-card"><div class="stat-label">Tasks assigned</div><div class="stat-val">${total}</div></div>
-    <div class="stat-card"><div class="stat-label">Overdue tasks</div><div class="stat-val danger">${overdue}</div></div>
-    <div class="stat-card"><div class="stat-label">Completed tasks</div><div class="stat-val success">${done}</div></div>`;
-  const recent=allTasks.slice(0,5);
-  document.getElementById('dashRecentTasks').innerHTML=`
-    <div class="sec-head" style="margin-top:4px"><span class="sec-title">Recent tasks</span></div>
-    ${recent.length?recent.map(t=>taskCard(t,true)).join(''):'<div class="empty-state">No tasks yet</div>'}`;
+    <div class="stat-box"><div class="stat-lbl">Active plans</div><div class="stat-val">${active}</div></div>
+    <div class="stat-box"><div class="stat-lbl">Total tasks</div><div class="stat-val">${total}</div></div>
+    <div class="stat-box"><div class="stat-lbl">Overdue</div><div class="stat-val d">${ov}</div></div>
+    <div class="stat-box"><div class="stat-lbl">Completed</div><div class="stat-val s">${done}</div></div>`;
+  const recent=allTasks.slice(0,6);
+  document.getElementById('dashContent').innerHTML=`
+    <div style="font-size:15px;font-weight:500;margin-bottom:10px;margin-top:4px">Recent tasks</div>
+    <div class="grid-wrap">
+    <table><thead><tr>
+      <th style="width:14%">Staff</th><th style="width:10%">Due</th><th style="width:9%">Priority</th>
+      <th style="width:35%">Task</th><th style="width:14%">Status</th>
+    </tr></thead><tbody>
+    ${recent.map(t=>{const eff=effStatus(t);const ov2=eff==='Overdue';return`<tr>
+      <td><span class="av">${initials(t.assignedTo?.name||'')}</span>${t.assignedTo?.name||'—'}</td>
+      <td><span class="${ov2?'date-ov':''}" style="font-size:12px">${fmtDate(t.dueDate)}</span></td>
+      <td style="font-size:12px">${priDot(t.priority)}</td>
+      <td>${t.title}</td>
+      <td>${stBadge(eff)}</td>
+    </tr>`}).join('')}
+    </tbody></table></div>`;
 }
 
-// ── DASHBOARD (staff) ──────────────────────────────────────
-function renderStaffDashboard() {
+// DASHBOARD staff
+function renderStaffDash(){
   const total=allTasks.length;
-  const overdue=allTasks.filter(t=>t.status==='Overdue').length;
+  const ov=allTasks.filter(t=>effStatus(t)==='Overdue').length;
   const done=allTasks.filter(t=>t.status==='Done').length;
-  const pending=allTasks.filter(t=>t.status==='Pending'||t.status==='In progress').length;
+  const pend=allTasks.filter(t=>t.status==='Pending'||t.status==='In progress').length;
   document.getElementById('statsGrid').innerHTML=`
-    <div class="stat-card"><div class="stat-label">Total tasks</div><div class="stat-val">${total}</div></div>
-    <div class="stat-card"><div class="stat-label">Pending / Active</div><div class="stat-val">${pending}</div></div>
-    <div class="stat-card"><div class="stat-label">Overdue</div><div class="stat-val danger">${overdue}</div></div>
-    <div class="stat-card"><div class="stat-label">Done</div><div class="stat-val success">${done}</div></div>`;
-  const urgent=allTasks.filter(t=>t.status!=='Done').slice(0,5);
-  document.getElementById('dashRecentTasks').innerHTML=`
-    <div class="sec-head" style="margin-top:4px"><span class="sec-title">My upcoming tasks</span></div>
-    ${urgent.length?urgent.map(t=>myTaskCard(t)).join(''):'<div class="empty-state">All clear! No pending tasks.</div>'}`;
+    <div class="stat-box"><div class="stat-lbl">Total tasks</div><div class="stat-val">${total}</div></div>
+    <div class="stat-box"><div class="stat-lbl">Pending / Active</div><div class="stat-val">${pend}</div></div>
+    <div class="stat-box"><div class="stat-lbl">Overdue</div><div class="stat-val d">${ov}</div></div>
+    <div class="stat-box"><div class="stat-lbl">Done</div><div class="stat-val s">${done}</div></div>`;
+  document.getElementById('dashContent').innerHTML=`<div style="font-size:15px;font-weight:500;margin-bottom:10px;margin-top:4px">My pending tasks</div>
+    <div class="grid-wrap"><table><thead><tr>
+      <th style="width:10%">Due</th><th style="width:9%">Priority</th><th style="width:40%">Task</th><th style="width:15%">Status</th><th style="width:26%">Action</th>
+    </tr></thead><tbody>
+    ${allTasks.filter(t=>t.status!=='Done').slice(0,5).map(t=>{const eff=effStatus(t);const ov2=eff==='Overdue';return`<tr>
+      <td><span class="${ov2?'date-ov':''}" style="font-size:12px">${fmtDate(t.dueDate)}</span></td>
+      <td style="font-size:12px">${priDot(t.priority)}</td>
+      <td>${t.title}</td>
+      <td>${stBadge(eff)}</td>
+      <td><button class="btn-s" style="font-size:11px;padding:4px 10px" onclick="openStatusModal('${t._id}','${t.status}',\`${(t.staffNote||'').replace(/`/g,"'")}\`)">Update</button></td>
+    </tr>`}).join('')}
+    </tbody></table></div>`;
 }
 
-// ── PLANS ──────────────────────────────────────────────────
-function renderPlans() {
-  const filtered=planFilter==='all'?allPlans:allPlans.filter(p=>p.status===planFilter);
-  const el=document.getElementById('plansList');
-  if(!filtered.length){el.innerHTML='<div class="empty-state">No plans found. Create your first plan!</div>';return;}
-  el.innerHTML=filtered.map(p=>`
-    <div class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-title">${p.title}</div>
-          <div class="card-meta">
-            <span class="badge b-gray">${p.category}</span>
-            ${statusBadge(p.status)}
-            ${priorityBadge(p.priority)}
-            ${p.startDate?`<span class="meta-chip">📅 ${fmtDate(p.startDate)} – ${fmtDate(p.targetDate)}</span>`:''}
-            ${p.budget?`<span class="meta-chip">₹${Number(p.budget).toLocaleString('en-IN')}</span>`:''}
-          </div>
-        </div>
-      </div>
-      ${p.goal?`<div class="card-desc">${p.goal}</div>`:''}
-      ${p.notes?`<div class="card-desc" style="margin-top:4px;color:#aaa;font-size:12px">📝 ${p.notes}</div>`:''}
-      <div class="prog-bar"><div class="prog-fill" style="width:${p.progress||0}%;background:${progColor(p.progress||0)}"></div></div>
-      <div style="font-size:11px;color:#aaa;margin-top:4px">${p.progress||0}% complete</div>
-      <div class="card-actions">
-        <button class="btn-secondary btn-sm" onclick='editPlan(${JSON.stringify(p)})'>Edit</button>
-        <button class="btn-danger btn-sm" onclick="deletePlan('${p._id}')">Delete</button>
-      </div>
-    </div>`).join('');
+// TASKS grid (owner)
+function renderTasks(){
+  const tbody=document.getElementById('tasksBody');
+  const filtered=taskFilter==='all'?allTasks:allTasks.filter(t=>effStatus(t)===taskFilter);
+  document.getElementById('taskCount').textContent=filtered.length+' task'+(filtered.length!==1?'s':'')+(taskFilter!=='all'?' · '+taskFilter:'');
+  if(!filtered.length){tbody.innerHTML=`<tr><td colspan="7" style="text-align:center;color:#aaa;padding:24px">No tasks found</td></tr>`;return}
+  tbody.innerHTML=filtered.map(t=>{
+    const eff=effStatus(t);const ov=eff==='Overdue';
+    const name=t.assignedTo?.name||'—';
+    return`<tr class="${ov?'ov-row':''}">
+      <td><span class="av">${initials(name)}</span>${name}</td>
+      <td><span class="date-${ov?'ov':'cell'}" style="font-size:12px;${ov?'color:#A32D2D;font-weight:500':''}">${fmtDate(t.dueDate)}</span></td>
+      <td style="font-size:12px">${priDot(t.priority)}</td>
+      <td>${t.title}${t.staffNote?`<div class="staff-note-box">💬 ${t.staffNote}</div>`:''}</td>
+      <td class="note-txt">${t.expectedOutcome||t.description||'—'}</td>
+      <td>
+        <select class="st-sel" onchange="ownerChangeStatus('${t._id}',this.value)">
+          <option${t.status==='Pending'?' selected':''}>Pending</option>
+          <option${t.status==='In progress'?' selected':''}>In progress</option>
+          <option${t.status==='Done'?' selected':''}>Done</option>
+          <option${ov?' selected':''} value="Overdue"${ov?'':' style="display:none"'}>Overdue</option>
+        </select>
+      </td>
+      <td><button onclick="deleteTask('${t._id}')" style="background:none;border:none;cursor:pointer;color:#ccc;font-size:16px" title="Delete">✕</button></td>
+    </tr>`;
+  }).join('');
 }
 
-function filterPlans(f,el) {
-  planFilter=f;
-  document.querySelectorAll('#planFilters .filter-btn').forEach(b=>b.classList.remove('active'));
-  el.classList.add('active'); renderPlans();
-}
-
-function openPlanModal(edit=false) {
-  hideErr('planFormErr');
-  if(!edit){
-    ['pTitle','pGoal','pNotes'].forEach(id=>document.getElementById(id).value='');
-    document.getElementById('pBudget').value=''; document.getElementById('pTeamSize').value='1';
-    document.getElementById('pProgress').value='0'; document.getElementById('pEditId').value='';
-    document.getElementById('pPriority').value='Medium'; document.getElementById('pStatus').value='Draft';
-    document.getElementById('pStart').value=''; document.getElementById('pTarget').value='';
-    document.getElementById('planModalTitle').textContent='New Plan';
-  }
-  document.getElementById('planModal').classList.add('open');
-}
-function closePlanModal() { document.getElementById('planModal').classList.remove('open'); }
-
-function editPlan(p) {
-  document.getElementById('pTitle').value=p.title||'';
-  document.getElementById('pCategory').value=p.category||'Sales strategy';
-  document.getElementById('pStart').value=p.startDate?p.startDate.slice(0,10):'';
-  document.getElementById('pTarget').value=p.targetDate?p.targetDate.slice(0,10):'';
-  document.getElementById('pPriority').value=p.priority||'Medium';
-  document.getElementById('pGoal').value=p.goal||'';
-  document.getElementById('pBudget').value=p.budget||'';
-  document.getElementById('pTeamSize').value=p.teamSize||1;
-  document.getElementById('pStatus').value=p.status||'Draft';
-  document.getElementById('pNotes').value=p.notes||'';
-  document.getElementById('pProgress').value=p.progress||0;
-  document.getElementById('pEditId').value=p._id;
-  document.getElementById('planModalTitle').textContent='Edit Plan';
-  openPlanModal(true);
-}
-
-async function savePlan() {
-  hideErr('planFormErr');
-  const title=document.getElementById('pTitle').value.trim();
-  if(!title) return showErr('planFormErr','Plan title is required');
-  const body={
-    title, category:document.getElementById('pCategory').value,
-    startDate:document.getElementById('pStart').value||null,
-    targetDate:document.getElementById('pTarget').value||null,
-    priority:document.getElementById('pPriority').value,
-    goal:document.getElementById('pGoal').value,
-    budget:Number(document.getElementById('pBudget').value)||0,
-    teamSize:Number(document.getElementById('pTeamSize').value)||1,
-    status:document.getElementById('pStatus').value,
-    notes:document.getElementById('pNotes').value,
-    progress:Number(document.getElementById('pProgress').value)||0
-  };
-  const editId=document.getElementById('pEditId').value;
-  const res=editId?await api('/plans/'+editId,'PUT',body):await api('/plans','POST',body);
-  if(res.message&&!res._id) return showErr('planFormErr',res.message);
-  if(editId){allPlans=allPlans.map(p=>p._id===editId?res:p);}else{allPlans.unshift(res);}
-  closePlanModal(); renderPlans(); renderDashboard();
-  toast(editId?'Plan updated':'Plan created'); updateTaskPlanDropdown();
-}
-
-async function deletePlan(id) {
-  if(!confirm('Delete this plan?')) return;
-  await api('/plans/'+id,'DELETE');
-  allPlans=allPlans.filter(p=>p._id!==id);
-  renderPlans(); renderDashboard(); toast('Plan deleted');
-}
-
-// ── TASKS (owner) ───────────────────────────────────────────
-function taskCard(t, compact=false) {
-  const overdue=t.status==='Overdue';
-  const assigneeName=t.assignedTo?.name||'Unknown';
-  return `<div class="card${overdue?' overdue':''}">
-    <div class="card-header">
-      <div>
-        <div class="card-title">${t.title}</div>
-        <div class="card-meta">
-          <div class="avatar-sm">${initials(assigneeName)}</div>
-          <span style="font-size:12px;color:#666">${assigneeName}</span>
-          ${statusBadge(t.status)}
-          ${priorityBadge(t.priority)}
-          <span class="meta-chip">📅 Due ${fmtDate(t.dueDate)}</span>
-          <span class="badge b-gray">${t.mode||''}</span>
-          ${t.relatedPlan?`<span class="badge b-blue">${t.relatedPlan.title}</span>`:''}
-        </div>
-      </div>
-    </div>
-    ${t.description?`<div class="card-desc">${t.description}</div>`:''}
-    ${t.expectedOutcome?`<div class="card-desc" style="margin-top:4px;color:#aaa;font-size:12px">🎯 ${t.expectedOutcome}</div>`:''}
-    ${t.staffNote?`<div class="card-desc" style="margin-top:4px;background:#f9f7f2;padding:8px 10px;border-radius:6px;font-size:12px">💬 Staff note: ${t.staffNote}</div>`:''}
-    ${!compact?`<div class="card-actions">
-      <button class="btn-secondary btn-sm" onclick='editTask(${JSON.stringify(t)})'>Edit</button>
-      <button class="btn-danger btn-sm" onclick="deleteTask('${t._id}')">Delete</button>
-    </div>`:''}
-  </div>`;
-}
-
-function renderTasks() {
-  const filtered=taskFilter==='all'?allTasks:allTasks.filter(t=>t.status===taskFilter);
-  const el=document.getElementById('tasksList');
-  if(!filtered.length){el.innerHTML='<div class="empty-state">No tasks found.</div>';return;}
-  el.innerHTML=filtered.map(t=>taskCard(t)).join('');
-}
-
-function filterTasks(f,el) {
+function filterTasks(f,el){
   taskFilter=f;
-  document.querySelectorAll('#taskFilters .filter-btn').forEach(b=>b.classList.remove('active'));
-  el.classList.add('active'); renderTasks();
+  document.querySelectorAll('#taskFilters .f-btn').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');renderTasks();
 }
 
-function openTaskModal(edit=false) {
-  hideErr('taskFormErr');
-  if(!edit){
-    ['tTitle','tDesc','tOutcome'].forEach(id=>document.getElementById(id).value='');
-    document.getElementById('tDue').value=''; document.getElementById('tEditId').value='';
-    document.getElementById('tPriority').value='Medium'; document.getElementById('tMode').value='Field visit';
-    document.getElementById('taskModalTitle').textContent='Assign Task';
+function toggleAddForm(){
+  const f=document.getElementById('addTaskForm');
+  f.classList.toggle('open');
+  if(f.classList.contains('open')){
+    document.getElementById('fDate').value=new Date().toISOString().slice(0,10);
   }
-  // Populate staff dropdown
-  const sel=document.getElementById('tAssignTo');
+}
+
+function populateStaffDropdown(){
+  const sel=document.getElementById('fStaff');
+  if(!sel)return;
   sel.innerHTML=allStaff.map(s=>`<option value="${s._id}">${s.name}</option>`).join('');
-  // Populate plans dropdown
-  updateTaskPlanDropdown();
-  document.getElementById('taskModal').classList.add('open');
-}
-function closeTaskModal() { document.getElementById('taskModal').classList.remove('open'); }
-
-function updateTaskPlanDropdown() {
-  const sel=document.getElementById('tPlan');
-  if(!sel) return;
-  sel.innerHTML='<option value="">None</option>'+allPlans.map(p=>`<option value="${p._id}">${p.title}</option>`).join('');
 }
 
-function editTask(t) {
-  document.getElementById('tTitle').value=t.title||'';
-  document.getElementById('tDesc').value=t.description||'';
-  document.getElementById('tDue').value=t.dueDate?t.dueDate.slice(0,10):'';
-  document.getElementById('tPriority').value=t.priority||'Medium';
-  document.getElementById('tMode').value=t.mode||'Field visit';
-  document.getElementById('tOutcome').value=t.expectedOutcome||'';
-  document.getElementById('tEditId').value=t._id;
-  document.getElementById('taskModalTitle').textContent='Edit Task';
-  openTaskModal(true);
-  document.getElementById('tAssignTo').value=t.assignedTo?._id||t.assignedTo||'';
-  document.getElementById('tPlan').value=t.relatedPlan?._id||t.relatedPlan||'';
-}
-
-async function saveTask() {
-  hideErr('taskFormErr');
-  const title=document.getElementById('tTitle').value.trim();
-  const assignedTo=document.getElementById('tAssignTo').value;
-  if(!title) return showErr('taskFormErr','Task title is required');
-  if(!assignedTo) return showErr('taskFormErr','Please select a staff member');
+async function saveNewTask(){
+  const work=document.getElementById('fWork').value.trim();
+  const assignedTo=document.getElementById('fStaff').value;
+  if(!work)return toast('Enter task description');
+  if(!assignedTo)return toast('Select a staff member');
   const body={
-    title, assignedTo,
-    description:document.getElementById('tDesc').value,
-    dueDate:document.getElementById('tDue').value||null,
-    priority:document.getElementById('tPriority').value,
-    mode:document.getElementById('tMode').value,
-    expectedOutcome:document.getElementById('tOutcome').value,
-    relatedPlan:document.getElementById('tPlan').value||null
+    title:work,assignedTo,
+    dueDate:document.getElementById('fDate').value||null,
+    priority:document.getElementById('fPriority').value,
+    expectedOutcome:document.getElementById('fNote').value,
+    description:document.getElementById('fNote').value,
+    mode:'Field visit'
   };
-  const editId=document.getElementById('tEditId').value;
-  const res=editId?await api('/tasks/'+editId,'PUT',body):await api('/tasks','POST',body);
-  if(res.message&&!res._id) return showErr('taskFormErr',res.message);
-  if(editId){allTasks=allTasks.map(t=>t._id===editId?res:t);}else{allTasks.unshift(res);}
-  closeTaskModal(); renderTasks(); renderDashboard(); toast(editId?'Task updated':'Task assigned');
+  const res=await api('/tasks','POST',body);
+  if(res.message&&!res._id)return toast('Error: '+res.message);
+  allTasks.unshift(res);
+  document.getElementById('fWork').value='';
+  document.getElementById('fNote').value='';
+  document.getElementById('addTaskForm').classList.remove('open');
+  renderTasks();renderDash();toast('Task assigned!');
 }
 
-async function deleteTask(id) {
-  if(!confirm('Delete this task?')) return;
+async function ownerChangeStatus(id,val){
+  const res=await api('/tasks/'+id,'PUT',{status:val});
+  if(res._id)allTasks=allTasks.map(t=>t._id===id?res:t);
+  renderTasks();renderDash();
+}
+
+async function deleteTask(id){
+  if(!confirm('Delete this task?'))return;
   await api('/tasks/'+id,'DELETE');
   allTasks=allTasks.filter(t=>t._id!==id);
-  renderTasks(); renderDashboard(); toast('Task deleted');
+  renderTasks();renderDash();toast('Deleted');
 }
 
-// ── STAFF ───────────────────────────────────────────────────
-function renderStaff() {
-  const tbody=document.getElementById('staffTableBody');
-  if(!allStaff.length){tbody.innerHTML='<tr><td colspan="4" style="text-align:center;color:#aaa;padding:24px">No staff added yet</td></tr>';return;}
-  tbody.innerHTML=allStaff.map(s=>`<tr>
-    <td><div style="display:flex;align-items:center;gap:8px"><div class="avatar-sm">${initials(s.name)}</div>${s.name}</div></td>
-    <td>${s.email}</td>
-    <td>${s.phone||'—'}</td>
-    <td><button class="btn-danger btn-sm" onclick="deleteStaff('${s._id}')">Remove</button></td>
-  </tr>`).join('');
+// MY TASKS (staff)
+function renderMyTasks(){
+  const tbody=document.getElementById('myTasksBody');
+  const filtered=myTaskFilter==='all'?allTasks:allTasks.filter(t=>effStatus(t)===myTaskFilter);
+  document.getElementById('myTaskCount').textContent=filtered.length+' task'+(filtered.length!==1?'s':'');
+  if(!filtered.length){tbody.innerHTML=`<tr><td colspan="6" style="text-align:center;color:#aaa;padding:24px">No tasks found</td></tr>`;return}
+  tbody.innerHTML=filtered.map(t=>{
+    const eff=effStatus(t);const ov=eff==='Overdue';
+    return`<tr class="${ov?'ov-row':''}">
+      <td><span style="font-size:12px;${ov?'color:#A32D2D;font-weight:500':''}">${fmtDate(t.dueDate)}</span></td>
+      <td style="font-size:12px">${priDot(t.priority)}</td>
+      <td>${t.title}</td>
+      <td class="note-txt">${t.expectedOutcome||t.description||'—'}</td>
+      <td>${stBadge(eff)}</td>
+      <td>
+        <button class="btn-s" style="font-size:11px;padding:4px 10px" onclick="openStatusModal('${t._id}','${t.status}',\`${(t.staffNote||'').replace(/`/g,"'")}\`)">Update</button>
+        ${t.staffNote?`<div class="note-txt" style="margin-top:4px">${t.staffNote}</div>`:''}
+      </td>
+    </tr>`;
+  }).join('');
 }
 
-function openStaffModal() {
-  hideErr('staffFormErr'); document.getElementById('staffFormSuc').style.display='none';
-  ['sfName','sfEmail','sfPass','sfPhone'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('staffModal').classList.add('open');
-}
-function closeStaffModal() { document.getElementById('staffModal').classList.remove('open'); }
-
-async function addStaff() {
-  hideErr('staffFormErr');
-  const name=document.getElementById('sfName').value.trim();
-  const email=document.getElementById('sfEmail').value.trim();
-  const password=document.getElementById('sfPass').value;
-  const phone=document.getElementById('sfPhone').value.trim();
-  if(!name||!email||!password) return showErr('staffFormErr','Name, email and password required');
-  if(password.length<6) return showErr('staffFormErr','Password min 6 characters');
-  const res=await api('/auth/register','POST',{name,email,password,phone,role:'staff'});
-  if(res.message&&!res.id) return showErr('staffFormErr',res.message);
-  showSuc('staffFormSuc','Staff member added! They can now log in.');
-  const staff=await api('/staff');
-  allStaff=Array.isArray(staff)?staff:[];
-  renderStaff(); toast('Staff added');
-  setTimeout(closeStaffModal, 1200);
-}
-
-async function deleteStaff(id) {
-  if(!confirm('Remove this staff member?')) return;
-  await api('/staff/'+id,'DELETE');
-  allStaff=allStaff.filter(s=>s._id!==id);
-  renderStaff(); toast('Staff removed');
-}
-
-// ── MY TASKS (staff) ───────────────────────────────────────
-function myTaskCard(t) {
-  const overdue=t.status==='Overdue';
-  return `<div class="card${overdue?' overdue':''}">
-    <div class="card-header">
-      <div class="card-title">${t.title}</div>
-      ${statusBadge(t.status)}
-    </div>
-    <div class="card-meta" style="margin-top:6px">
-      ${priorityBadge(t.priority)}
-      <span class="meta-chip">📅 Due ${fmtDate(t.dueDate)}</span>
-      <span class="badge b-gray">${t.mode||''}</span>
-    </div>
-    ${t.description?`<div class="card-desc">${t.description}</div>`:''}
-    ${t.expectedOutcome?`<div class="card-desc" style="margin-top:4px;color:#aaa;font-size:12px">🎯 ${t.expectedOutcome}</div>`:''}
-    ${t.staffNote?`<div class="card-desc" style="margin-top:4px;background:#f9f7f2;padding:8px 10px;border-radius:6px;font-size:12px">💬 Your note: ${t.staffNote}</div>`:''}
-    <div class="card-actions">
-      <button class="task-update-btn" onclick="openStatusModal('${t._id}','${t.status}',\`${(t.staffNote||'').replace(/`/g,"'")}\`)">Update status</button>
-    </div>
-  </div>`;
-}
-
-function renderMyTasks() {
-  const filtered=myTaskFilter==='all'?allTasks:allTasks.filter(t=>t.status===myTaskFilter);
-  const el=document.getElementById('myTasksList');
-  if(!filtered.length){el.innerHTML='<div class="empty-state">No tasks found.</div>';return;}
-  el.innerHTML=filtered.map(t=>myTaskCard(t)).join('');
-}
-
-function filterMyTasks(f,el) {
+function filterMyTasks(f,el){
   myTaskFilter=f;
-  document.querySelectorAll('#myTaskFilters .filter-btn').forEach(b=>b.classList.remove('active'));
-  el.classList.add('active'); renderMyTasks();
+  document.querySelectorAll('#myFilters .f-btn').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');renderMyTasks();
 }
 
-function openStatusModal(id, status, note) {
-  document.getElementById('stTaskId').value=id;
+function openStatusModal(id,status,note){
+  document.getElementById('stId').value=id;
   document.getElementById('stStatus').value=status;
   document.getElementById('stNote').value=note||'';
   document.getElementById('statusModal').classList.add('open');
 }
-function closeStatusModal() { document.getElementById('statusModal').classList.remove('open'); }
+function closeStatusModal(){document.getElementById('statusModal').classList.remove('open')}
 
-async function updateStatus() {
-  const id=document.getElementById('stTaskId').value;
+async function updateStatus(){
+  const id=document.getElementById('stId').value;
   const status=document.getElementById('stStatus').value;
   const staffNote=document.getElementById('stNote').value;
   const res=await api('/tasks/'+id,'PUT',{status,staffNote});
-  if(res.message&&!res._id) return toast('Error: '+res.message);
+  if(res.message&&!res._id)return toast('Error: '+res.message);
   allTasks=allTasks.map(t=>t._id===id?res:t);
-  closeStatusModal(); renderMyTasks(); renderStaffDashboard(); toast('Task updated!');
+  closeStatusModal();renderMyTasks();renderStaffDash();toast('Updated!');
 }
 
-// ── INIT ─────────────────────────────────────────────────
-if(token && currentUser) { startApp(); } else {
-  document.getElementById('authWrap').style.display='flex';
+// PLANS
+function renderPlans(){
+  const filtered=planFilter==='all'?allPlans:allPlans.filter(p=>p.status===planFilter);
+  const grid=document.getElementById('planGrid');
+  if(!filtered.length){grid.innerHTML='<div style="color:#aaa;padding:24px;text-align:center">No plans found</div>';return}
+  const stMap={Active:'badge-st-a',Draft:'badge-st-h',Completed:'badge-st-d','On hold':'badge-st-c'};
+  const priMap={High:'badge-pri-h',Medium:'badge-pri-m',Low:'badge-pri-l'};
+  grid.innerHTML=filtered.map(p=>`
+    <div class="plan-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+        <div class="plan-title">${p.title}</div>
+        <span class="${stMap[p.status]||'badge-st-c'}">${p.status}</span>
+      </div>
+      ${p.goal?`<div class="plan-goal">${p.goal}</div>`:''}
+      <div class="plan-meta">
+        <span class="badge-cat">${p.category}</span>
+        <span class="${priMap[p.priority]||'badge-pri-m'}">${p.priority}</span>
+        ${p.budget?`<span class="badge-cat">₹${Number(p.budget).toLocaleString('en-IN')}</span>`:''}
+        ${p.startDate?`<span class="badge-cat">${fmtDate(p.startDate)} – ${fmtDate(p.targetDate)}</span>`:''}
+      </div>
+      <div class="prog-bar"><div class="prog-fill" style="width:${p.progress||0}%;background:${progColor(p.progress||0)}"></div></div>
+      <div style="font-size:11px;color:#aaa;margin-bottom:8px">${p.progress||0}% complete</div>
+      <div class="plan-actions">
+        <button class="btn-s" style="font-size:12px;padding:5px 12px" onclick='editPlan(${JSON.stringify(p)})'>Edit</button>
+        <button class="btn-danger" onclick="deletePlan('${p._id}')">Delete</button>
+      </div>
+    </div>`).join('');
 }
+
+function filterPlans(f,el){
+  planFilter=f;
+  document.querySelectorAll('#sec-plans .filters .f-btn').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');renderPlans();
+}
+
+function openPlanModal(edit=false){
+  hideEl('planErr');
+  if(!edit){
+    ['pTitle','pGoal','pNotes'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('pBudget').value='';document.getElementById('pTeam').value='1';
+    document.getElementById('pProg').value='0';document.getElementById('pEditId').value='';
+    document.getElementById('pPri').value='Medium';document.getElementById('pStatus').value='Draft';
+    document.getElementById('pStart').value='';document.getElementById('pTarget').value='';
+    document.getElementById('planModalTitle').textContent='New plan';
+  }
+  document.getElementById('planModal').classList.add('open');
+}
+function closePlanModal(){document.getElementById('planModal').classList.remove('open')}
+
+function editPlan(p){
+  document.getElementById('pTitle').value=p.title||'';
+  document.getElementById('pCat').value=p.category||'Sales strategy';
+  document.getElementById('pStart').value=p.startDate?p.startDate.slice(0,10):'';
+  document.getElementById('pTarget').value=p.targetDate?p.targetDate.slice(0,10):'';
+  document.getElementById('pPri').value=p.priority||'Medium';
+  document.getElementById('pGoal').value=p.goal||'';
+  document.getElementById('pBudget').value=p.budget||'';
+  document.getElementById('pTeam').value=p.teamSize||1;
+  document.getElementById('pStatus').value=p.status||'Draft';
+  document.getElementById('pNotes').value=p.notes||'';
+  document.getElementById('pProg').value=p.progress||0;
+  document.getElementById('pEditId').value=p._id;
+  document.getElementById('planModalTitle').textContent='Edit plan';
+  openPlanModal(true);
+}
+
+async function savePlan(){
+  hideEl('planErr');
+  const title=document.getElementById('pTitle').value.trim();
+  if(!title)return showErr('planErr','Plan title is required');
+  const body={title,category:document.getElementById('pCat').value,
+    startDate:document.getElementById('pStart').value||null,
+    targetDate:document.getElementById('pTarget').value||null,
+    priority:document.getElementById('pPri').value,
+    goal:document.getElementById('pGoal').value,
+    budget:Number(document.getElementById('pBudget').value)||0,
+    teamSize:Number(document.getElementById('pTeam').value)||1,
+    status:document.getElementById('pStatus').value,
+    notes:document.getElementById('pNotes').value,
+    progress:Number(document.getElementById('pProg').value)||0};
+  const editId=document.getElementById('pEditId').value;
+  const res=editId?await api('/plans/'+editId,'PUT',body):await api('/plans','POST',body);
+  if(res.message&&!res._id)return showErr('planErr',res.message);
+  if(editId)allPlans=allPlans.map(p=>p._id===editId?res:p);else allPlans.unshift(res);
+  closePlanModal();renderPlans();renderDash();toast(editId?'Plan updated':'Plan created');
+}
+
+async function deletePlan(id){
+  if(!confirm('Delete this plan?'))return;
+  await api('/plans/'+id,'DELETE');
+  allPlans=allPlans.filter(p=>p._id!==id);
+  renderPlans();renderDash();toast('Plan deleted');
+}
+
+// STAFF
+function renderStaff(){
+  const tbody=document.getElementById('staffBody');
+  if(!allStaff.length){tbody.innerHTML=`<tr><td colspan="4" style="text-align:center;color:#aaa;padding:20px">No staff added yet</td></tr>`;return}
+  tbody.innerHTML=allStaff.map(s=>`<tr>
+    <td><span class="av">${initials(s.name)}</span>${s.name}</td>
+    <td>${s.email}</td><td>${s.phone||'—'}</td>
+    <td><button class="btn-danger" onclick="deleteStaff('${s._id}')">Remove</button></td>
+  </tr>`).join('');
+}
+
+function openStaffModal(){
+  hideEl('staffErr');document.getElementById('staffSuc').style.display='none';
+  ['sfName','sfEmail','sfPass','sfPhone'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('staffModal').classList.add('open');
+}
+function closeStaffModal(){document.getElementById('staffModal').classList.remove('open')}
+
+async function addStaff(){
+  hideEl('staffErr');
+  const name=document.getElementById('sfName').value.trim();
+  const email=document.getElementById('sfEmail').value.trim();
+  const password=document.getElementById('sfPass').value;
+  const phone=document.getElementById('sfPhone').value.trim();
+  if(!name||!email||!password)return showErr('staffErr','Name, email and password required');
+  if(password.length<6)return showErr('staffErr','Password min 6 characters');
+  const res=await api('/auth/register','POST',{name,email,password,phone,role:'staff'});
+  if(res.message&&!res.id)return showErr('staffErr',res.message);
+  showSuc('staffSuc','Staff added! They can now log in.');
+  const staff=await api('/staff');
+  allStaff=Array.isArray(staff)?staff:[];
+  renderStaff();populateStaffDropdown();toast('Staff added');
+  setTimeout(closeStaffModal,1200);
+}
+
+async function deleteStaff(id){
+  if(!confirm('Remove this staff member?'))return;
+  await api('/staff/'+id,'DELETE');
+  allStaff=allStaff.filter(s=>s._id!==id);
+  renderStaff();populateStaffDropdown();toast('Removed');
+}
+
+if(token&&currentUser){startApp();}
 </script>
 </body>
 </html>
